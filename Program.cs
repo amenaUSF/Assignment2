@@ -634,7 +634,7 @@ namespace Assignment2
                         s += a.ToString();
                         Recursionfunction(0, depth + 1, maxdepth, iterationend,s, assignments, i1, i2, op);
                     }
-                    /*if string length==assignments dictionary with unique letter inside (we have found probable assignments for alphabets)
+                    /*if string length=assignments dictionary with unique letter inside (we have found probable assignments for alphabets)
                     * - that string is ready to be tested as a  solution
                     *put the assigned values in this variable assignments (assign_numbers)
                     * call the function to check whether this is indeed our required solution (problem solve)
