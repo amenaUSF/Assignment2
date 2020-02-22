@@ -97,9 +97,9 @@ namespace Assignment2
 
             /****************** Amena: question # 9 Inputs go here ******************/
             Console.WriteLine("Question 9");
-            string i1 = "tom";
-            string i2 = "nag";
-            string op = "goat";
+            string i1 =  "altitude";
+            string i2 = "remedied";
+            string op = "umbrella";
             SolvePuzzle(i1, i2, op);
 
         }
@@ -604,51 +604,57 @@ namespace Assignment2
                 /**this loop will become a nested version of itself via recursion and shall traverse through each digit from 0-10 (except in 1st run its 1)*/
                 for (int a = start; a < iterationend; a++)
                 {
-                    /*if string length>assignments dictionary with unique letter inside (we have found probable assignments for alphabets)
-                     * - that string is ready to be tested as a  solution
-                     *put the assigned values in this variable assignments (assign_numbers)
-                     * call the function to check whether this is indeed our required solution (problem solve)
-                     *if solved is returned true - output the solution and exit the program*/
-                    if (s.Length >= assignments.Count)
-                    {
-                        assignments = assign_numbers(s, assignments);
-                        solved = problemsolve(assignments, i1, i2, op);
-                        if (solved == true)
-                        {
-                            return;
-                        }
                    
-                    }
-
                     /*if you're at max depth, no need to call recursion again  
                      * check whether a is already part of the string or not - only add if its not (dont want duplicate assignments)
                      * if this is not first iteration of the current loop, delete the character previously added and then add the new one
                      */
-                    if (depth == maxdepth - 1 && a > 0 && s.Contains(a.ToString()) == false)
+                    if (depth == maxdepth-1  && a > 0 && s.Contains(a.ToString()) == false)
                     {
                         s = s.Substring(0, depth);
                         s += a.ToString();
                     }
                     /*if its the first iteration of the current loop - depicted by a=0, directly add the digit a to string s as a character*/
-                    if (depth == maxdepth - 1 && a == 0 && s.Contains(a.ToString()) == false)
+                    if (depth == maxdepth-1 && a == 0 && s.Contains(a.ToString()) == false)
                     {
                         s += a.ToString();
                     }
                     /*if you're not at max depth, call recursion again, to solve for the next blank
                      * depth +1 to track that we are going to the next level
                      * if not the first iteration - delete the last addded character and then add the current digit as character*/
-                    if (depth < maxdepth - 1 && a > 0 && s.Contains(a.ToString()) == false)
+                    if (depth < maxdepth-1  && a > 0 && s.Contains(a.ToString()) == false)
                     {
                         s = s.Substring(0, depth);
                         s += a.ToString();
                         Recursionfunction(0, depth + 1, maxdepth, iterationend,s, assignments, i1, i2, op);
                     }
                     /*if its the first iteration of the current loop - depicted by a=0, directly add the digit a to string s as a character*/
-                    if (depth < maxdepth - 1 && a == 0 && s.Contains(a.ToString()) == false)
+                    if (depth < maxdepth-1  && a == 0 && s.Contains(a.ToString()) == false)
                     {
                         s += a.ToString();
                         Recursionfunction(0, depth + 1, maxdepth, iterationend,s, assignments, i1, i2, op);
                     }
+                    /*if string length==assignments dictionary with unique letter inside (we have found probable assignments for alphabets)
+                    * - that string is ready to be tested as a  solution
+                    *put the assigned values in this variable assignments (assign_numbers)
+                    * call the function to check whether this is indeed our required solution (problem solve)
+                    *if solved is returned true - output the solution and exit the program*/
+                    if (s.Length == assignments.Count)
+                    {
+                        assignments = assign_numbers(s, assignments);
+                        solved = problemsolve(assignments, i1, i2, op);
+                        if (solved == true)
+                        {
+                            return;
+//                            System.Environment.Exit(0);
+                            /*
+                            Exception ex = new Exception("solution found -stopping recursion");
+                            throw ex;
+                            */
+                        }
+
+                    }
+
                 }//end of for loop
             }//end of try
             catch (Exception ex)
@@ -788,6 +794,7 @@ namespace Assignment2
                 Dictionary<char, int> assignments = Populate_unique_alpabets(i1, i2, op);
                 //initialize variable depth to keep a track of how deep we are inside the recursive loops and when to stop recursion
                 int depth = 0;
+
                 //depends on the unique alphabets we need to solve for 
                 int maxdepth = assignments.Count;
                 //this is based on the fact that each alphabet can take a max of 10 values (0,1,2,3,4,5,6,7,8,9)
@@ -802,10 +809,8 @@ namespace Assignment2
                 /** step2 - start recursion
                  * initialize an empty string s which will store all the probable values for the answer
                  * and unique alphabets assignment**/
+                 /*pass start as 1 since every first digit in result atleast starts with 1 - starting with 0 isn't a possibility*/
                 string s = "";
-                /*pass start as 1 since no number is allowed to be started with a zero 
-                and since our unique assignments always has the
-                answer as first number 1 so start first loop by 1 and remaining can be 0*/
                 Recursionfunction(1, depth, maxdepth,iterationend, s, assignments, i1, i2, op);
             }//end of try
 
